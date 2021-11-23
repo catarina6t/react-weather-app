@@ -6,6 +6,7 @@ import "./Weather.css";
 export default function Weather(props) {
   const [weatherData, setWeatherData] = useState({ ready: false });
   const [city, setCity] = useState(props.defaultCity);
+
   function handleResponse(response) {
     setWeatherData({
       ready: true,
@@ -13,10 +14,19 @@ export default function Weather(props) {
       humidity: response.data.main.humidity,
       date: new Date(response.data.dt * 1000),
       description: response.data.weather[0].description,
-      iconUrl: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+      icon: response.data.weather[0].icon,
       wind: response.data.wind.speed,
       city: response.data.name,
     });
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+
+  function handleCityChange(event) {
+    setCity(event.target.value);
   }
 
   function search() {
@@ -25,15 +35,6 @@ export default function Weather(props) {
     axios.get(apiUrl).then(handleResponse);
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    // prevent default behaviour but will search for a city
-  }
-
-  function handleCityChange(event) {
-    setCity(event.target.value); //this gonna update the city
-    search();
-  }
   if (weatherData.ready) {
     return (
       <div className="Weather">
@@ -57,7 +58,7 @@ export default function Weather(props) {
             </div>
           </div>
         </form>
-        <WeatherInfo info={weatherData} />
+        <WeatherInfo data={weatherData} />
       </div>
     );
   } else {
