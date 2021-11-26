@@ -55,7 +55,7 @@ export default function Weather(props) {
               <input
                 type="submit"
                 value="Search"
-                className="btn btn-primary w-100"
+                className="btn btn-secondary w-100"
               />
             </div>
           </div>
@@ -66,6 +66,6 @@ export default function Weather(props) {
     );
   } else {
     search();
-    return "Loading...";
+    return "Welcome to your Weather! Check the Forecast! Have a nice day !";
   }
 }
